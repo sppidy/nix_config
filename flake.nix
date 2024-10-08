@@ -1,7 +1,7 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05"; 
-
+     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable"; 
+#     nixpkgs.url = "https://releases.nixos.org/nixos/unstable";
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +22,8 @@
           }
           nixos-cosmic.nixosModules.default
           ./configuration.nix
+	  #./modules/asus.nix
+  	  (builtins.path { path = "/etc/nixos/modules/asus.nix"; })
         ];
       };
     };

@@ -9,16 +9,13 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./cachix.nix
-      ./modules/nvidia.nix
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -60,7 +57,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
-
+  
   #Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -71,27 +68,41 @@
     };
   };
 
-  #services.xserver = {
-  #  enable = true;
-  #  displayManager.gdm.enable = true;
-  #  desktopManager.gnome.enable = true;
-  #};
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
   #services.desktopManager.gnome.enable = true;
-  #hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = false;
   #services.desktopManager.cosmic.enable = true;
   #services.displayManager.cosmic-greeter.enable = true;
   #hardware.system76.enableAll = true;
-  services.xserver.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm.enable = true;
-  #AsusCTL Stuffs
-  services.supergfxd.enable = true;
-  services = {
-    asusd = {
-      enable = true;
-      enableUserService = true;
-    };
+  #services.xserver.enable = true;
+  #services.desktopManager.plasma6.enable = true;
+  #services.displayManager.sddm.enable = true;
+  #services.displayManager.sddm.wayland.enable = true;
+  #Hyprland
+  programs.hyprland = {
+    # Install the packages from nixpkgs
+    enable = true;
+    # Whether to enable XWayland
+    xwayland.enable = true;
   };
+  security.polkit.enable = true;
+  #Fonts
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+  ];
+
   #ZRAM
   zramSwap = {
      enable = true;
@@ -100,8 +111,7 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
+  nixpkgs.config.allowUnfree = true; 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -114,8 +124,14 @@
      pkgs.bluez-alsa
      pkgs.nettools
      pkgs.iproute2
+     pkgs.ags
+     pkgs.fd
+     pkgs.kdeconnect
+     pkgs.matugen
+     pkgs.discord
+     pkgs.hyprlock
   ];
-
+  environment.variables = rec {NIXPKGS_ALLOW_UNFREE = 1;};
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   # Some programs need SUID wrappers, can be configured further or are
