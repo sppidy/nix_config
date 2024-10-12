@@ -14,11 +14,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.hostName = "Ghosty";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -26,7 +22,7 @@
   #Enable i2c
   hardware.i2c.enable = true;
 
-  # Set your time zone.
+  #Timezone.
   time.timeZone = "Asia/Kolkata";
   
   # Select internationalisation properties.
@@ -54,7 +50,7 @@
   users.users.spidy = {
     isNormalUser = true;
     description = "spidy";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "bluetooth" ];
     packages = with pkgs; [];
   };
   
@@ -74,7 +70,6 @@
     desktopManager.gnome.enable = true;
   };
   #services.desktopManager.gnome.enable = true;
-  hardware.pulseaudio.enable = false;
   #services.desktopManager.cosmic.enable = true;
   #services.displayManager.cosmic-greeter.enable = true;
   #hardware.system76.enableAll = true;
@@ -82,6 +77,7 @@
   #services.desktopManager.plasma6.enable = true;
   #services.displayManager.sddm.enable = true;
   #services.displayManager.sddm.wayland.enable = true;
+  hardware.pulseaudio.enable = false;
   #Hyprland
   programs.hyprland = {
     # Install the packages from nixpkgs
@@ -112,12 +108,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true; 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-     #nvim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     #wget
-     #curl
      pkgs.curl
      pkgs.neovim
      pkgs.bluez
@@ -133,33 +124,7 @@
   ];
   environment.variables = rec {NIXPKGS_ALLOW_UNFREE = 1;};
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11";
   security.rtkit.enable = true;
   services.pipewire = {
  	enable = true;
@@ -174,7 +139,7 @@
       "bluez5.enable-sbc-xq" = true;
       "bluez5.enable-msbc" = true;
       "bluez5.enable-hw-volume" = true;
-      "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
+      "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" "a2dp_aac"];
     };
   };
 }

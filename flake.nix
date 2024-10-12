@@ -1,7 +1,6 @@
 {
   inputs = {
-     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable"; 
-#     nixpkgs.url = "https://releases.nixos.org/nixos/unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -10,8 +9,7 @@
 
   outputs = { self, nixpkgs, nixos-cosmic }: {
     nixosConfigurations = {
-      # Use your actual hostname instead of "nixos"
-      nixos = nixpkgs.lib.nixosSystem {
+      Ghosty = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux"; # Ensure this matches your architecture
         modules = [
           {
@@ -22,8 +20,7 @@
           }
           nixos-cosmic.nixosModules.default
           ./configuration.nix
-	  #./modules/asus.nix
-  	  (builtins.path { path = "/etc/nixos/modules/asus.nix"; })
+          ./modules/asus.nix
         ];
       };
     };
